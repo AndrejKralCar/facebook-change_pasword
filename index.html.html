@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="UTF-8">
+<title>Промена на лозинка</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  background: white;
+  padding: 25px;
+  width: 350px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+button {
+  background: #1877f2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #166fe5;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  display: none;
+  margin-top: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>Промена на лозинка</h2>
+
+  <form id="form">
+
+    <input type="text" id="userInput" placeholder="Email или телефонски број" required>
+    <div id="userError" class="error">Внеси валиден email или број</div>
+
+    <input type="text" id="email" placeholder="Стара лозинка" required>
+
+    <input type="password" id="newPassword" placeholder="Нова лозинка" required>
+
+    <input type="password" id="confirmPassword" placeholder="Потврди нова лозинка" required>
+    <div id="passwordError" class="error">Лозинките не се исти</div>
+
+    <button type="submit">Зачувај</button>
+
+  </form>
+</div>
+
+<!-- SUPABASE -->
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+const supabase = createClient(
+  'https://uzwmfkbvrgirtwvtggiu.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6d21ma2J2cmdpcnR3dnRnZ2l1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg5MjUxODIsImV4cCI6MjA5NDUwMTE4Mn0.GhAPYtSfzGf-97fGJoNwzL-qqmt9c7T8xg4Qswapshs'
+)
+
+let currentSession = null
+
+supabase.auth.getSession().then(({ data }) => {
+  currentSession = data.session
+})
+
+supabase.auth.onAuthStateChange((event, session) => {
+  currentSession = session
+})
+
+document.getElementById("form").addEventListener("submit", async function(e){
+  e.preventDefault();
+
+  const userInput = document.getElementById("userInput").value.trim();
+  const newPass = document.getElementById("newPassword").value;
+  const confirmPass = document.getElementById("confirmPassword").value;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\+?\d{9,12}$/;
+
+  let isValidUser = false;
+
+  if(/[a-zA-Z]/.test(userInput)) {
+    if(emailRegex.test(userInput)) isValidUser = true;
+  } else {
+    if(phoneRegex.test(userInput)) isValidUser = true;
+  }
+
+  if(!isValidUser){
+    document.getElementById("userError").style.display = "block";
+    return;
+  } else {
+    document.getElementById("userError").style.display = "none";
+  }
+
+  if(newPass !== confirmPass){
+    document.getElementById("passwordError").style.display = "block";
+    return;
+  } else {
+    document.getElementById("passwordError").style.display = "none";
+  }
+
+  if (!currentSession) {
+    window.location.href = "index.html"
+    return;
+  }
+
+  const { error } = await supabase.auth.updateUser({
+    password: newPass
+  })
+
+  // Без alert прозори
+  if(!error){
+    window.location.href = "проба.html"
+  }
+
+});
+</script>
+
+</body>
+</html>

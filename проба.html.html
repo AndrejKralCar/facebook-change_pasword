@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Лозинка успешно променета</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 15px;
+}
+
+.box {
+  background: white;
+  padding: 30px 25px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* Лого */
+.logo {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+/* Наслов */
+h2 {
+  font-size: 22px;
+  color: #1877f2;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 16px;
+  color: #1c1e21;
+  margin-bottom: 25px;
+}
+
+/* Копче за враќање */
+button {
+  background: #1877f2;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #166fe5;
+}
+
+/* Мобилна оптимизација */
+@media (max-width: 480px) {
+  .box {
+    padding: 20px 15px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 14px;
+  }
+
+  .logo {
+    width: 100px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+  <img src="https://i.ibb.co/qFPZng2r/2021-Facebook-icon-svg.webp" alt="Facebook Logo" class="logo">
+  <h2>Лозинката е успешно променета</h2>
+  <p>Вашата лозинка е успешно обновена. Сега можете да се најавите со новата лозинка.</p>
+  <button onclick="window.location.href='https://www.facebook.com'">Врати се на Facebook</button>
+</div>
+
+</body>
+</html>
